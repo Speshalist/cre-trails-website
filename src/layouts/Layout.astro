@@ -31,13 +31,13 @@ const { title, description = "Explore the beautiful multi-use trails at Chesapea
             <span></span>
           </button>
           <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/map">Trail Map</a></li>
-            <li><a href="/rules">Rules & Safety</a></li>
-            <li><a href="/volunteer">Get Involved</a></li>
-            <li><a href="/gallery">Gallery</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Home</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/map"}>Trail Map</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/rules"}>Rules & Safety</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/volunteer"}>Get Involved</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/gallery"}>Gallery</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/about"}>About</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/contact"}>Contact</a></li>
           </ul>
         </div>
       </nav>
