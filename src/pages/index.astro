@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Home">
+  <div class="hero" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/hero-bg.webp'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+      <h1>Welcome to CRE Trails</h1>
+      <p>Explore beautiful multi-use trails in the heart of Chesapeake Ranch Estates</p>
+      <div class="btn-group">
+        <a href="/map" class="btn btn-primary">View Trail Map</a>
+        <a href="/volunteer" class="btn btn-secondary">Get Involved</a>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Discover Our Trails</h2>
+        <p>Miles of scenic paths through forests and natural landscapes, maintained by our dedicated volunteer community</p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="card-icon">🥾</div>
+          <h3>Hiking</h3>
+          <p>Enjoy peaceful walks through wooded trails perfect for all skill levels. Experience the beauty of nature right in your neighborhood.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🚴</div>
+          <h3>Mountain Biking</h3>
+          <p>Multi-use trails welcome mountain bikers. Ride responsibly and share the trail with other users.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🐕</div>
+          <h3>Dog Walking</h3>
+          <p>Bring your furry friends along! Dogs are welcome on leash. Please clean up after your pets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background-color: var(--color-white);">
+    <div class="container">
+      <div class="grid grid-2">
+        <div>
+          <h2>Trail Information</h2>
+          <p>The POACRE Trails Committee oversees and maintains our community trail system. These multi-use trails are open to all residents and guests of Chesapeake Ranch Estates.</p>
+          
+          <div class="info-box">
+            <h4>🕐 Hours of Operation</h4>
+            <p><strong>Dawn to Dusk</strong> - Year Round</p>
+          </div>
+
+          <h3>Trail Features</h3>
+          <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+            <li>Multiple interconnected trail loops</li>
+            <li>Color-coded trail markers</li>
+            <li>Benches and rest areas</li>
+            <li>Natural wooded scenery</li>
+            <li>Well-maintained paths</li>
+          </ul>
+
+          <a href="/rules" class="btn btn-primary">View Trail Rules</a>
+        </div>
+
+        <div>
+          <h2>Get Involved</h2>
+          <p>Our trails are maintained entirely by volunteers from our community. The POACRE Trails Committee meets several times a year to plan maintenance and improvements.</p>
+
+          <h3>Volunteer Opportunities</h3>
+          <ul style="margin-left: var(--spacing-lg); margin-bottom: var(--spacing-md);">
+            <li>Trail maintenance days</li>
+            <li>Clearing brush and debris</li>
+            <li>Trail marking and signage</li>
+            <li>Committee participation</li>
+            <li>Event organization</li>
+          </ul>
+
+          <p>No special skills required - just a willingness to help keep our trails beautiful and accessible for everyone!</p>
+
+          <a href="/volunteer" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Location & Access</h2>
+        <p>Find us at Chesapeake Ranch Estates in Lusby, Maryland</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>📍 Address</h3>
+          <p>
+            424 Clubhouse Drive<br>
+            Lusby, MD 20657
+          </p>
+          <p style="margin-top: var(--spacing-md);">
+            <a href="https://www.google.com/maps/search/?api=1&query=424+Clubhouse+Drive+Lusby+MD+20657" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Get Directions</a>
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>📞 Contact</h3>
+          <p>
+            <strong>Phone:</strong> <a href="tel:443-975-4736">(443) 975-4736</a><br>
+            <strong>Email:</strong> <a href="mailto:lydia@hotmail.com">lydia@hotmail.com</a>
+          </p>
+          <p style="margin-top: var(--spacing-md);">
+            <a href="/contact" class="btn btn-primary">Contact Us</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

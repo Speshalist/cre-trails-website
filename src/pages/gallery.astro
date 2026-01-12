@@ -1,0 +1,188 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Photo Gallery" description="Photos from CRE Trails showing the beautiful scenery and trail system.">
+  <section style="padding-top: var(--spacing-xl);">
+    <div class="container">
+      <h1>Photo Gallery</h1>
+      <p class="text-center" style="font-size: 1.125rem; color: var(--color-text-light); max-width: 800px; margin: var(--spacing-md) auto var(--spacing-xl);">
+        Explore photos from our trails and see the natural beauty of Chesapeake Ranch Estates
+      </p>
+
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openModal('/images/hero-bg.webp')">
+          <img src="/images/hero-bg.webp" alt="Trail bench in the woods" loading="lazy">
+          <div class="gallery-caption">Trail bench in the woods</div>
+        </div>
+
+        <div class="gallery-item" onclick="openModal('/images/trail-map-detailed.webp')">
+          <img src="/images/trail-map-detailed.webp" alt="Detailed trail map" loading="lazy">
+          <div class="gallery-caption">Trail system map</div>
+        </div>
+
+        <div class="gallery-item" onclick="openModal('/images/profile-flowers.webp')">
+          <img src="/images/profile-flowers.webp" alt="Spring flowers on the trail" loading="lazy">
+          <div class="gallery-caption">Spring blooms</div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top: var(--spacing-2xl);">
+        <h3>📸 Share Your Photos!</h3>
+        <p>Have great photos from the trails? We'd love to feature them! Send your photos to <a href="mailto:lydia@hotmail.com">lydia@hotmail.com</a> or share them on our <a href="https://www.facebook.com/CRE.Trails" target="_blank" rel="noopener noreferrer">Facebook page</a>.</p>
+      </div>
+
+      <div style="text-align: center; margin-top: var(--spacing-xl);">
+        <h2>Follow Us for More Photos</h2>
+        <p style="margin-bottom: var(--spacing-md);">See the latest photos and updates from the trails on our Facebook page.</p>
+        <a href="https://www.facebook.com/CRE.Trails" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Visit Our Facebook Page
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal for full-size images -->
+  <div id="imageModal" class="modal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage" alt="">
+  </div>
+</Layout>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 4/3;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: var(--color-white);
+    padding: var(--spacing-md);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item:hover .gallery-caption {
+    opacity: 1;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: fadeIn 0.3s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: zoomIn 0.3s;
+  }
+
+  @keyframes zoomIn {
+    from { transform: translate(-50%, -50%) scale(0.8); }
+    to { transform: translate(-50%, -50%) scale(1); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: var(--color-white);
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .modal-close:hover {
+    color: #ccc;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+  }
+</style>
+
+<script>
+  function openModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    if (modal && modalImg) {
+      modal.style.display = 'block';
+      modalImg.src = imageSrc;
+    }
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // Close modal when clicking outside the image
+  document.getElementById('imageModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+</script>

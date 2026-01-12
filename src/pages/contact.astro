@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact" description="Get in touch with the POACRE Trails Committee. Contact us for questions, suggestions, or to get involved.">
+  <section style="padding-top: var(--spacing-xl);">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p class="text-center" style="font-size: 1.125rem; color: var(--color-text-light); max-width: 700px; margin: var(--spacing-md) auto var(--spacing-xl);">
+        Have questions, suggestions, or want to get involved? We'd love to hear from you!
+      </p>
+
+      <div class="grid grid-2">
+        <div>
+          <div class="card">
+            <h2>Get In Touch</h2>
+            
+            <div style="margin-top: var(--spacing-md);">
+              <h3>📞 Phone</h3>
+              <p style="font-size: 1.125rem; margin-bottom: var(--spacing-md);">
+                <a href="tel:443-975-4736">(443) 975-4736</a>
+              </p>
+
+              <h3>📧 Email</h3>
+              <p style="font-size: 1.125rem; margin-bottom: var(--spacing-md);">
+                <a href="mailto:lydia@hotmail.com">lydia@hotmail.com</a>
+              </p>
+
+              <h3>📍 Location</h3>
+              <p style="margin-bottom: var(--spacing-sm);">
+                424 Clubhouse Drive<br>
+                Lusby, MD 20657
+              </p>
+              <p>
+                <a href="https://www.google.com/maps/search/?api=1&query=424+Clubhouse+Drive+Lusby+MD+20657" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Get Directions</a>
+              </p>
+
+              <h3 style="margin-top: var(--spacing-md);">📱 Social Media</h3>
+              <p>
+                Follow us on Facebook for updates, photos, and event announcements:
+              </p>
+              <p>
+                <a href="https://www.facebook.com/CRE.Trails" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  Visit Our Facebook Page
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: var(--spacing-md);">
+            <h3>Committee Meetings</h3>
+            <p>The POACRE Trails Committee meets several times per year to discuss trail maintenance, improvements, and volunteer activities.</p>
+            <p style="margin-top: var(--spacing-sm);">All residents are welcome to attend! Check our Facebook page or contact us for the next scheduled meeting date and location.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h2>Send Us a Message</h2>
+            <p>Use the form below to send us a message, or contact us directly using the information on the left.</p>
+            
+            <form id="contact-form" style="margin-top: var(--spacing-md);">
+              <div class="form-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone">
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject *</label>
+                <select id="subject" name="subject" required>
+                  <option value="">Select a subject...</option>
+                  <option value="general">General Question</option>
+                  <option value="volunteer">Volunteer Interest</option>
+                  <option value="trail-issue">Trail Issue/Concern</option>
+                  <option value="suggestion">Suggestion</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+
+            <div id="form-status" style="margin-top: var(--spacing-md); display: none;"></div>
+          </div>
+
+          <div class="info-box" style="margin-top: var(--spacing-md);">
+            <h4>💡 Quick Links</h4>
+            <p>Looking for something specific?</p>
+            <ul style="margin-left: var(--spacing-lg); margin-top: var(--spacing-sm);">
+              <li><a href="/map">View Trail Map</a></li>
+              <li><a href="/rules">Trail Rules & Safety</a></li>
+              <li><a href="/volunteer">Volunteer Opportunities</a></li>
+              <li><a href="/about">About the Committee</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Contact form handling
+  const form = document.getElementById('contact-form');
+  const formStatus = document.getElementById('form-status');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+    
+    // Show loading state
+    formStatus.style.display = 'block';
+    formStatus.className = 'info-box';
+    formStatus.innerHTML = '<p>Sending message...</p>';
+    
+    // For now, we'll create a mailto link as a fallback
+    // In production, you could integrate with a form service like Formspree or Cloudflare Forms
+    const subject = encodeURIComponent(`CRE Trails Contact: ${data.subject}`);
+    const body = encodeURIComponent(
+      `Name: ${data.name}\n` +
+      `Email: ${data.email}\n` +
+      `Phone: ${data.phone || 'Not provided'}\n\n` +
+      `Message:\n${data.message}`
+    );
+    
+    // Open email client
+    window.location.href = `mailto:lydia@hotmail.com?subject=${subject}&body=${body}`;
+    
+    // Show success message
+    setTimeout(() => {
+      formStatus.className = 'info-box';
+      formStatus.innerHTML = '<p><strong>✓ Your email client should open.</strong> If it doesn\'t, please email us directly at <a href="mailto:lydia@hotmail.com">lydia@hotmail.com</a></p>';
+      form.reset();
+    }, 500);
+  });
+</script>

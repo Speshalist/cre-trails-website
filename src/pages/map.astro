@@ -1,0 +1,269 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Trail Map" description="Interactive map of the CRE Trails system in Chesapeake Ranch Estates. View trail routes, distances, and points of interest.">
+  <section style="padding-top: var(--spacing-xl);">
+    <div class="container">
+      <h1>Trail Map</h1>
+      <p class="text-center" style="font-size: 1.125rem; color: var(--color-text-light); max-width: 800px; margin: var(--spacing-md) auto var(--spacing-xl);">
+        Explore our trail system with this interactive map. Click on trails for more information.
+      </p>
+
+      <div class="info-box" style="max-width: 800px; margin: 0 auto var(--spacing-lg);">
+        <h3>🗺️ Map Features</h3>
+        <p>Use the controls to zoom in/out and pan around. Trails are color-coded to match the markers you'll find on the physical trails.</p>
+      </div>
+
+      <div id="map" style="height: 600px; border-radius: var(--border-radius); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin-bottom: var(--spacing-lg);"></div>
+
+      <div class="grid grid-2" style="margin-top: var(--spacing-xl);">
+        <div class="card">
+          <h3>📥 Download Map</h3>
+          <p>Take the trail map with you for offline use:</p>
+          <div style="margin-top: var(--spacing-md); display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
+            <button id="download-pdf" class="btn btn-primary">Download PDF</button>
+            <button id="download-gpx" class="btn btn-secondary">Download GPX</button>
+          </div>
+          <p style="margin-top: var(--spacing-sm); font-size: 0.875rem; color: var(--color-text-light);">
+            GPX files can be loaded into GPS devices and hiking apps.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>🧭 Trail Legend</h3>
+          <div style="margin-top: var(--spacing-md);">
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs);">
+              <div style="width: 30px; height: 4px; background-color: #e74c3c;"></div>
+              <span>Red Trail</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs);">
+              <div style="width: 30px; height: 4px; background-color: #3498db;"></div>
+              <span>Blue Trail</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs);">
+              <div style="width: 30px; height: 4px; background-color: #f39c12;"></div>
+              <span>Orange Trail</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs);">
+              <div style="width: 30px; height: 4px; background-color: #2ecc71;"></div>
+              <span>Green Trail</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs);">
+              <div style="width: 30px; height: 4px; background-color: #9b59b6;"></div>
+              <span>Purple Trail</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--spacing-xl);">
+        <h2>Trail Information</h2>
+        
+        <div class="grid grid-3" style="margin-top: var(--spacing-lg);">
+          <div class="card">
+            <h3>🚶 Difficulty</h3>
+            <p>Most trails are easy to moderate, suitable for all fitness levels. Some sections may have roots, rocks, or slight elevation changes.</p>
+          </div>
+
+          <div class="card">
+            <h3>📏 Distance</h3>
+            <p>Individual trail loops range from 0.5 to 2 miles. Multiple loops can be combined for longer hikes.</p>
+          </div>
+
+          <div class="card">
+            <h3>🕐 Time</h3>
+            <p>Plan 20-40 minutes per mile depending on pace. Allow extra time for nature observation and rest stops.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box warning" style="margin-top: var(--spacing-xl);">
+        <h3>⚠️ Important Reminders</h3>
+        <ul style="margin-left: var(--spacing-lg); margin-top: var(--spacing-sm);">
+          <li>Trails are open <strong>dawn to dusk</strong> only</li>
+          <li>Stay on marked trails</li>
+          <li>Carry water and a phone</li>
+          <li>Check weather before heading out</li>
+          <li>Tell someone where you're going</li>
+        </ul>
+        <p style="margin-top: var(--spacing-sm);">
+          <a href="/rules" style="color: inherit; text-decoration: underline;">Review all trail rules and safety guidelines →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import L from 'leaflet';
+
+  // Wait for DOM to be ready
+  document.addEventListener('DOMContentLoaded', () => {
+    // Chesapeake Ranch Estates approximate coordinates
+    const centerLat = 38.4121;
+    const centerLng = -76.4575;
+
+    // Initialize the map
+    const map = L.map('map').setView([centerLat, centerLng], 15);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Sample trail data - these would be replaced with actual GPS coordinates
+    // Creating sample loop trails around the center point
+    const trails = [
+      {
+        name: 'Red Trail',
+        color: '#e74c3c',
+        coordinates: [
+          [centerLat + 0.005, centerLng - 0.005],
+          [centerLat + 0.008, centerLng - 0.003],
+          [centerLat + 0.010, centerLng + 0.001],
+          [centerLat + 0.008, centerLng + 0.004],
+          [centerLat + 0.005, centerLng + 0.003],
+          [centerLat + 0.005, centerLng - 0.005]
+        ],
+        distance: '1.2 miles',
+        description: 'A scenic loop through wooded areas with moderate terrain.'
+      },
+      {
+        name: 'Blue Trail',
+        color: '#3498db',
+        coordinates: [
+          [centerLat - 0.002, centerLng - 0.006],
+          [centerLat - 0.005, centerLng - 0.004],
+          [centerLat - 0.007, centerLng - 0.001],
+          [centerLat - 0.006, centerLng + 0.003],
+          [centerLat - 0.003, centerLng + 0.004],
+          [centerLat - 0.002, centerLng - 0.006]
+        ],
+        distance: '1.5 miles',
+        description: 'Longer trail with varied terrain and beautiful forest views.'
+      },
+      {
+        name: 'Orange Trail',
+        color: '#f39c12',
+        coordinates: [
+          [centerLat, centerLng - 0.004],
+          [centerLat + 0.002, centerLng - 0.002],
+          [centerLat + 0.003, centerLng + 0.001],
+          [centerLat + 0.001, centerLng + 0.003],
+          [centerLat - 0.001, centerLng + 0.002],
+          [centerLat, centerLng - 0.004]
+        ],
+        distance: '0.8 miles',
+        description: 'Shorter loop perfect for a quick walk or run.'
+      },
+      {
+        name: 'Green Trail',
+        color: '#2ecc71',
+        coordinates: [
+          [centerLat - 0.008, centerLng - 0.003],
+          [centerLat - 0.010, centerLng],
+          [centerLat - 0.009, centerLng + 0.004],
+          [centerLat - 0.006, centerLng + 0.005],
+          [centerLat - 0.004, centerLng + 0.002],
+          [centerLat - 0.008, centerLng - 0.003]
+        ],
+        distance: '1.4 miles',
+        description: 'Peaceful trail with opportunities for wildlife observation.'
+      },
+      {
+        name: 'Purple Trail',
+        color: '#9b59b6',
+        coordinates: [
+          [centerLat + 0.002, centerLng + 0.005],
+          [centerLat + 0.005, centerLng + 0.007],
+          [centerLat + 0.007, centerLng + 0.005],
+          [centerLat + 0.006, centerLng + 0.002],
+          [centerLat + 0.003, centerLng + 0.003],
+          [centerLat + 0.002, centerLng + 0.005]
+        ],
+        distance: '0.9 miles',
+        description: 'Easy trail suitable for families and beginners.'
+      }
+    ];
+
+    // Add trails to map
+    trails.forEach(trail => {
+      const polyline = L.polyline(trail.coordinates, {
+        color: trail.color,
+        weight: 4,
+        opacity: 0.8
+      }).addTo(map);
+
+      // Add popup with trail info
+      polyline.bindPopup(`
+        <div style="font-family: var(--font-body);">
+          <h3 style="color: ${trail.color}; margin-bottom: 8px;">${trail.name}</h3>
+          <p style="margin-bottom: 4px;"><strong>Distance:</strong> ${trail.distance}</p>
+          <p style="margin: 0;">${trail.description}</p>
+        </div>
+      `);
+    });
+
+    // Add a marker for the trailhead/clubhouse
+    const trailheadMarker = L.marker([centerLat, centerLng]).addTo(map);
+    trailheadMarker.bindPopup(`
+      <div style="font-family: var(--font-body);">
+        <h3 style="margin-bottom: 8px;">Trailhead</h3>
+        <p style="margin: 0;">424 Clubhouse Drive<br>Lusby, MD 20657</p>
+      </div>
+    `);
+
+    // Download PDF functionality
+    document.getElementById('download-pdf')?.addEventListener('click', () => {
+      alert('PDF download functionality would be implemented here. For now, you can take a screenshot of the map or contact us for a printed map.');
+    });
+
+    // Download GPX functionality
+    document.getElementById('download-gpx')?.addEventListener('click', () => {
+      // Generate a simple GPX file
+      let gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="CRE Trails">
+  <metadata>
+    <name>CRE Trails</name>
+    <desc>Trail system at Chesapeake Ranch Estates</desc>
+  </metadata>
+`;
+
+      trails.forEach(trail => {
+        gpxContent += `  <trk>
+    <name>${trail.name}</name>
+    <desc>${trail.description}</desc>
+    <trkseg>
+`;
+        trail.coordinates.forEach(coord => {
+          gpxContent += `      <trkpt lat="${coord[0]}" lon="${coord[1]}"></trkpt>\n`;
+        });
+        gpxContent += `    </trkseg>
+  </trk>
+`;
+      });
+
+      gpxContent += `</gpx>`;
+
+      // Create download link
+      const blob = new Blob([gpxContent], { type: 'application/gpx+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'cre-trails.gpx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  });
+</script>
+
+<style>
+  /* Fix Leaflet marker icons */
+  :global(.leaflet-default-icon-path) {
+    background-image: url('https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png');
+  }
+</style>
