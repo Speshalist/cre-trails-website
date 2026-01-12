@@ -5,8 +5,8 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   // Set site to your GitHub Pages URL
   // Replace 'username' with your GitHub username and 'cre-trails-website' with your repo name
-  // site: 'https://username.github.io',
-  // base: '/cre-trails-website',
+  site: 'https://speshalist.github.io',
+  base: '/cre-trails-website',
   
   // Uncomment the lines above and update them after creating your GitHub repository
   // For example, if your GitHub username is 'johndoe' and repo is 'cre-trails':
