@@ -105,10 +105,10 @@ import Layout from '../layouts/Layout.astro';
             <h4>💡 Quick Links</h4>
             <p>Looking for something specific?</p>
             <ul style="margin-left: var(--spacing-lg); margin-top: var(--spacing-sm);">
-              <li><a href="/map">View Trail Map</a></li>
-              <li><a href="/rules">Trail Rules & Safety</a></li>
-              <li><a href="/volunteer">Volunteer Opportunities</a></li>
-              <li><a href="/about">About the Committee</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}/map`}>View Trail Map</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}/rules`}>Trail Rules & Safety</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}/volunteer`}>Volunteer Opportunities</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}/about`}>About the Committee</a></li>
             </ul>
           </div>
         </div>

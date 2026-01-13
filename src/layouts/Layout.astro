@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 const { title, description = "Explore the beautiful multi-use trails at Chesapeake Ranch Estates in Lusby, MD. Open dawn to dusk for hiking, biking, and dog walking." } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -9,7 +10,7 @@ const { title, description = "Explore the beautiful multi-use trails at Chesapea
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
     <title>{title} | CRE Trails</title>
     
     <!-- Leaflet CSS -->
@@ -21,7 +22,7 @@ const { title, description = "Explore the beautiful multi-use trails at Chesapea
     <header>
       <nav class="navbar">
         <div class="container">
-          <a href="/" class="logo">
+          <a href={import.meta.env.BASE_URL} class="logo">
             <span class="logo-icon">🌲</span>
             <span class="logo-text">CRE Trails</span>
           </a>
@@ -31,13 +32,13 @@ const { title, description = "Explore the beautiful multi-use trails at Chesapea
             <span></span>
           </button>
           <ul class="nav-links">
-            <li><a href={import.meta.env.BASE_URL}>Home</a></li>
-            <li><a href={import.meta.env.BASE_URL+"/map"}>Trail Map</a></li>
-            <li><a href={import.meta.env.BASE_URL+"/rules"}>Rules & Safety</a></li>
-            <li><a href={import.meta.env.BASE_URL+"/volunteer"}>Get Involved</a></li>
-            <li><a href={import.meta.env.BASE_URL+"/gallery"}>Gallery</a></li>
-            <li><a href={import.meta.env.BASE_URL+"/about"}>About</a></li>
-            <li><a href={import.meta.env.BASE_URL+"/contact"}>Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL} class={currentPath === import.meta.env.BASE_URL || currentPath === import.meta.env.BASE_URL + '/' ? 'active' : ''}>Home</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/map"} class={currentPath.includes('/map') ? 'active' : ''}>Trail Map</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/rules"} class={currentPath.includes('/rules') ? 'active' : ''}>Rules & Safety</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/volunteer"} class={currentPath.includes('/volunteer') ? 'active' : ''}>Get Involved</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/gallery"} class={currentPath.includes('/gallery') ? 'active' : ''}>Gallery</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/about"} class={currentPath.includes('/about') ? 'active' : ''}>About</a></li>
+            <li><a href={import.meta.env.BASE_URL+"/contact"} class={currentPath.includes('/contact') ? 'active' : ''}>Contact</a></li>
           </ul>
         </div>
       </nav>

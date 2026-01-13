@@ -79,7 +79,7 @@ import Layout from '../layouts/Layout.astro';
                 <strong>Email:</strong> <a href="mailto:lydia@hotmail.com" style="color: var(--color-white);">lydia@hotmail.com</a>
               </p>
               <p style="margin-top: var(--spacing-md);">
-                <a href="/contact" class="btn btn-secondary">Send Us a Message</a>
+                <a href={`${import.meta.env.BASE_URL}/contact`} class="btn btn-secondary">Send Us a Message</a>
               </p>
             </div>
 
@@ -208,7 +208,7 @@ import Layout from '../layouts/Layout.astro';
             Every volunteer makes a difference. Whether you can give a few hours a year or want to be more involved, we'd love to have you on our team.
           </p>
           <div class="btn-group">
-            <a href="/contact" class="btn btn-primary">Contact Us to Volunteer</a>
+            <a href={`${import.meta.env.BASE_URL}/contact`} class="btn btn-primary">Contact Us to Volunteer</a>
             <a href="https://www.facebook.com/CRE.Trails" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Follow on Facebook</a>
           </div>
         </div>

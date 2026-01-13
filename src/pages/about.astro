@@ -41,7 +41,7 @@ import Layout from '../layouts/Layout.astro';
 
             <div class="info-box" style="margin-top: var(--spacing-md);">
               <h4>🤝 Join Us</h4>
-              <p>Interested in joining the committee or volunteering? We'd love to have you! <a href="/volunteer">Learn more about getting involved</a>.</p>
+              <p>Interested in joining the committee or volunteering? We'd love to have you! <a href={`${import.meta.env.BASE_URL}/volunteer`}>Learn more about getting involved</a>.</p>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ import Layout from '../layouts/Layout.astro';
           </p>
           
           <p style="margin-top: var(--spacing-md);">
-            <a href="/contact" class="btn btn-primary">Send Us a Message</a>
+            <a href={`${import.meta.env.BASE_URL}/contact`} class="btn btn-primary">Send Us a Message</a>
           </p>
         </div>
       </div>

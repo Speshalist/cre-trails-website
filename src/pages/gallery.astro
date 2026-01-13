@@ -11,18 +11,18 @@ import Layout from '../layouts/Layout.astro';
       </p>
 
       <div class="gallery-grid">
-        <div class="gallery-item" onclick="openModal('/images/hero-bg.webp')">
-          <img src="/images/hero-bg.webp" alt="Trail bench in the woods" loading="lazy">
+        <div class="gallery-item" onclick="openModal('${import.meta.env.BASE_URL}/images/hero-bg.webp')">
+          <img src={`${import.meta.env.BASE_URL}/images/hero-bg.webp`} alt="Trail bench in the woods" loading="lazy">
           <div class="gallery-caption">Trail bench in the woods</div>
         </div>
 
-        <div class="gallery-item" onclick="openModal('/images/trail-map-detailed.webp')">
-          <img src="/images/trail-map-detailed.webp" alt="Detailed trail map" loading="lazy">
+        <div class="gallery-item" onclick="openModal('${import.meta.env.BASE_URL}/images/trail-map-detailed.webp')">
+          <img src={`${import.meta.env.BASE_URL}/images/trail-map-detailed.webp`} alt="Detailed trail map" loading="lazy">
           <div class="gallery-caption">Trail system map</div>
         </div>
 
-        <div class="gallery-item" onclick="openModal('/images/profile-flowers.webp')">
-          <img src="/images/profile-flowers.webp" alt="Spring flowers on the trail" loading="lazy">
+        <div class="gallery-item" onclick="openModal('${import.meta.env.BASE_URL}/images/profile-flowers.webp')">
+          <img src={`${import.meta.env.BASE_URL}/images/profile-flowers.webp`} alt="Spring flowers on the trail" loading="lazy">
           <div class="gallery-caption">Spring blooms</div>
         </div>
       </div>
