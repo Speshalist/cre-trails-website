@@ -10,12 +10,7 @@ import Layout from '../layouts/Layout.astro';
         Explore our trail system with this interactive map. Click on trails for more information.
       </p>
 
-      <div class="info-box" style="max-width: 800px; margin: 0 auto var(--spacing-lg);">
-        <h3>🗺️ Map Features</h3>
-        <p>Use the controls to zoom in/out and pan around. Trails are color-coded to match the markers you'll find on the physical trails.</p>
-      </div>
-
-      <div id="map" style="height: 600px; border-radius: var(--border-radius); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin-bottom: var(--spacing-lg);"></div>
+      <div id="map" style="height: 450px; border-radius: var(--border-radius); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin-bottom: var(--spacing-lg);"></div>
 
       <div class="grid grid-2" style="margin-top: var(--spacing-xl);">
         <div class="card">
@@ -88,7 +83,7 @@ import Layout from '../layouts/Layout.astro';
           <li>Tell someone where you're going</li>
         </ul>
         <p style="margin-top: var(--spacing-sm);">
-          <a href="/rules" style="color: inherit; text-decoration: underline;">Review all trail rules and safety guidelines →</a>
+          <a href={`${import.meta.env.BASE_URL}/rules`} style="color: inherit; text-decoration: underline;">Review all trail rules and safety guidelines →</a>
         </p>
       </div>
     </div>
@@ -99,7 +94,7 @@ import Layout from '../layouts/Layout.astro';
   import L from 'leaflet';
 
   // Wait for DOM to be ready
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     // Chesapeake Ranch Estates approximate coordinates
     const centerLat = 38.4121;
     const centerLng = -76.4575;
@@ -107,113 +102,139 @@ import Layout from '../layouts/Layout.astro';
     // Initialize the map
     const map = L.map('map').setView([centerLat, centerLng], 15);
 
-    // Add OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19
-    }).addTo(map);
+    // Define basemap layers
+    const baseMaps = {
+      "Street Map (OpenStreetMap)": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      }),
+      "USGS Topo": L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>',
+        maxZoom: 16
+      }),
+      "USGS Imagery + Topo": L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>',
+        maxZoom: 16
+      }),
+      "CyclOSM": L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 20
+      }),
+      "Esri World Hillshade": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Esri World Hillshade &copy; Esri',
+        maxZoom: 16
+      }),
+      "Esri World Topo Map": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Esri World Topo &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
+        maxZoom: 16
+      }),
+      "Satellite Imagery (Esri)": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 19
+      })
+    };
 
-    // Sample trail data - these would be replaced with actual GPS coordinates
-    // Creating sample loop trails around the center point
-    const trails = [
-      {
-        name: 'Red Trail',
-        color: '#e74c3c',
-        coordinates: [
-          [centerLat + 0.005, centerLng - 0.005],
-          [centerLat + 0.008, centerLng - 0.003],
-          [centerLat + 0.010, centerLng + 0.001],
-          [centerLat + 0.008, centerLng + 0.004],
-          [centerLat + 0.005, centerLng + 0.003],
-          [centerLat + 0.005, centerLng - 0.005]
-        ],
-        distance: '1.2 miles',
-        description: 'A scenic loop through wooded areas with moderate terrain.'
-      },
-      {
-        name: 'Blue Trail',
-        color: '#3498db',
-        coordinates: [
-          [centerLat - 0.002, centerLng - 0.006],
-          [centerLat - 0.005, centerLng - 0.004],
-          [centerLat - 0.007, centerLng - 0.001],
-          [centerLat - 0.006, centerLng + 0.003],
-          [centerLat - 0.003, centerLng + 0.004],
-          [centerLat - 0.002, centerLng - 0.006]
-        ],
-        distance: '1.5 miles',
-        description: 'Longer trail with varied terrain and beautiful forest views.'
-      },
-      {
-        name: 'Orange Trail',
-        color: '#f39c12',
-        coordinates: [
-          [centerLat, centerLng - 0.004],
-          [centerLat + 0.002, centerLng - 0.002],
-          [centerLat + 0.003, centerLng + 0.001],
-          [centerLat + 0.001, centerLng + 0.003],
-          [centerLat - 0.001, centerLng + 0.002],
-          [centerLat, centerLng - 0.004]
-        ],
-        distance: '0.8 miles',
-        description: 'Shorter loop perfect for a quick walk or run.'
-      },
-      {
-        name: 'Green Trail',
-        color: '#2ecc71',
-        coordinates: [
-          [centerLat - 0.008, centerLng - 0.003],
-          [centerLat - 0.010, centerLng],
-          [centerLat - 0.009, centerLng + 0.004],
-          [centerLat - 0.006, centerLng + 0.005],
-          [centerLat - 0.004, centerLng + 0.002],
-          [centerLat - 0.008, centerLng - 0.003]
-        ],
-        distance: '1.4 miles',
-        description: 'Peaceful trail with opportunities for wildlife observation.'
-      },
-      {
-        name: 'Purple Trail',
-        color: '#9b59b6',
-        coordinates: [
-          [centerLat + 0.002, centerLng + 0.005],
-          [centerLat + 0.005, centerLng + 0.007],
-          [centerLat + 0.007, centerLng + 0.005],
-          [centerLat + 0.006, centerLng + 0.002],
-          [centerLat + 0.003, centerLng + 0.003],
-          [centerLat + 0.002, centerLng + 0.005]
-        ],
-        distance: '0.9 miles',
-        description: 'Easy trail suitable for families and beginners.'
+    // Add default layer (Street Map)
+    baseMaps["Street Map (OpenStreetMap)"].addTo(map);
+
+    // Create layer groups for overlays
+    const trailLayers = {};
+
+    // Function to parse GPX and add to map
+    async function loadGPXFile(url, layerName) {
+      try {
+        const response = await fetch(url);
+        const gpxText = await response.text();
+        const parser = new DOMParser();
+        const gpxDoc = parser.parseFromString(gpxText, 'text/xml');
+
+        // Create a layer group for this GPX file
+        const gpxLayerGroup = L.layerGroup();
+
+        // Parse tracks
+        const tracks = gpxDoc.querySelectorAll('trk');
+        const allCoordinates = [];
+
+        tracks.forEach((track, index) => {
+          const trackName = track.querySelector('name')?.textContent || `Track ${index + 1}`;
+          const trackPoints = track.querySelectorAll('trkpt');
+          const coordinates = [];
+
+          trackPoints.forEach(pt => {
+            const lat = parseFloat(pt.getAttribute('lat'));
+            const lon = parseFloat(pt.getAttribute('lon'));
+            if (!isNaN(lat) && !isNaN(lon)) {
+              coordinates.push([lat, lon]);
+              allCoordinates.push([lat, lon]);
+            }
+          });
+
+          if (coordinates.length > 0) {
+            // Create polyline for the track
+            const polyline = L.polyline(coordinates, {
+              color: '#e74c3c',
+              weight: 4,
+              opacity: 0.8
+            });
+
+            // Add to the layer group instead of directly to map
+            polyline.addTo(gpxLayerGroup);
+
+            // Calculate distance
+            let distance = 0;
+            for (let i = 1; i < coordinates.length; i++) {
+              distance += map.distance(coordinates[i - 1], coordinates[i]);
+            }
+            const distanceMiles = (distance * 0.000621371).toFixed(2);
+
+            polyline.bindPopup(`
+              <div style="font-family: var(--font-body);">
+                <h3 style="color: #e74c3c; margin-bottom: 8px;">${trackName}</h3>
+                <p style="margin: 0;"><strong>Distance:</strong> ${distanceMiles} miles</p>
+              </div>
+            `);
+          }
+        });
+
+        // Add the layer group to map and store it
+        gpxLayerGroup.addTo(map);
+        // Add visual indicator to layer name
+        const layerNameWithIcon = `<span style="display: inline-flex; align-items: center; gap: 8px;"><span style="display: inline-block; width: 20px; height: 3px; background-color: #e74c3c; border-radius: 2px;"></span>${layerName}</span>`;
+        trailLayers[layerNameWithIcon] = gpxLayerGroup;
+
+        // Fit map to show all tracks
+        if (allCoordinates.length > 0) {
+          const bounds = L.latLngBounds(allCoordinates);
+          map.fitBounds(bounds, { padding: [50, 50] });
+        }
+
+        return allCoordinates;
+      } catch (error) {
+        console.error('Error loading GPX file:', error);
+        alert('Error loading trail data. Please try again later.');
+        return [];
       }
-    ];
+    }
 
-    // Add trails to map
-    trails.forEach(trail => {
-      const polyline = L.polyline(trail.coordinates, {
-        color: trail.color,
-        weight: 4,
-        opacity: 0.8
-      }).addTo(map);
+    // Load the GPX file
+    const baseUrl = import.meta.env.BASE_URL || '';
+    const gpxUrl = `${baseUrl}/gpx/20260107-152630-Cre-trails.gpx`;
+    const trailCoordinates = await loadGPXFile(gpxUrl, 'CRE Trails');
 
-      // Add popup with trail info
-      polyline.bindPopup(`
+    // Add layer control with basemaps and trail overlays
+    L.control.layers(baseMaps, trailLayers).addTo(map);
+
+    // Add a marker for the trailhead/clubhouse if we have coordinates
+    if (trailCoordinates.length > 0) {
+      // Use the first coordinate as approximate trailhead location
+      const trailheadMarker = L.marker(trailCoordinates[0]).addTo(map);
+      trailheadMarker.bindPopup(`
         <div style="font-family: var(--font-body);">
-          <h3 style="color: ${trail.color}; margin-bottom: 8px;">${trail.name}</h3>
-          <p style="margin-bottom: 4px;"><strong>Distance:</strong> ${trail.distance}</p>
-          <p style="margin: 0;">${trail.description}</p>
+          <h3 style="margin-bottom: 8px;">Trailhead</h3>
+          <p style="margin: 0;">424 Clubhouse Drive<br>Lusby, MD 20657</p>
         </div>
       `);
-    });
-
-    // Add a marker for the trailhead/clubhouse
-    const trailheadMarker = L.marker([centerLat, centerLng]).addTo(map);
-    trailheadMarker.bindPopup(`
-      <div style="font-family: var(--font-body);">
-        <h3 style="margin-bottom: 8px;">Trailhead</h3>
-        <p style="margin: 0;">424 Clubhouse Drive<br>Lusby, MD 20657</p>
-      </div>
-    `);
+    }
 
     // Download PDF functionality
     document.getElementById('download-pdf')?.addEventListener('click', () => {
@@ -222,41 +243,15 @@ import Layout from '../layouts/Layout.astro';
 
     // Download GPX functionality
     document.getElementById('download-gpx')?.addEventListener('click', () => {
-      // Generate a simple GPX file
-      let gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="CRE Trails">
-  <metadata>
-    <name>CRE Trails</name>
-    <desc>Trail system at Chesapeake Ranch Estates</desc>
-  </metadata>
-`;
-
-      trails.forEach(trail => {
-        gpxContent += `  <trk>
-    <name>${trail.name}</name>
-    <desc>${trail.description}</desc>
-    <trkseg>
-`;
-        trail.coordinates.forEach(coord => {
-          gpxContent += `      <trkpt lat="${coord[0]}" lon="${coord[1]}"></trkpt>\n`;
-        });
-        gpxContent += `    </trkseg>
-  </trk>
-`;
-      });
-
-      gpxContent += `</gpx>`;
-
-      // Create download link
-      const blob = new Blob([gpxContent], { type: 'application/gpx+xml' });
-      const url = URL.createObjectURL(blob);
+      // Download the actual GPX file
+      const baseUrl = import.meta.env.BASE_URL || '';
+      const gpxUrl = `${baseUrl}/gpx/20260107-152630-Cre-trails.gpx`;
       const a = document.createElement('a');
-      a.href = url;
+      a.href = gpxUrl;
       a.download = 'cre-trails.gpx';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     });
   });
 </script>
